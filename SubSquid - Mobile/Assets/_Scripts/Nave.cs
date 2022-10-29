@@ -12,6 +12,8 @@ public class Nave : MonoBehaviour
 
     */
 
+    public FixedJoystick moveJoystick;
+
     public float dashSpeed = 35;
 
      public float fireRateDash = 0.5f;
@@ -245,7 +247,8 @@ public class Nave : MonoBehaviour
             horizontal *= moveLimiter;
             vertical *= moveLimiter;
         } 
-
+        //horizontal = moveJoystick.Horizontal; 
+        //vertical = moveJoystick.Vertical;
         corpoRigido2D.velocity = new Vector2(horizontal * velocidade, vertical * velocidade);
     }
 
