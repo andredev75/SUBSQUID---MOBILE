@@ -6,6 +6,8 @@ using TMPro;
 
 public class SpawnTiroNew : MonoBehaviour
 {
+    public static SpawnTiroNew instance;
+
     public Transform bullet;
     public Transform bulletPw1;
 
@@ -32,6 +34,10 @@ public class SpawnTiroNew : MonoBehaviour
 
     public static bool tiroJ;
 
+    void Awake()
+    {
+        instance = this;
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -42,6 +48,11 @@ public class SpawnTiroNew : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        Atirar();
+    }
+
+    public void Atirar()
     {
         tiroJ = Input.GetKey(KeyCode.J);
 
@@ -67,11 +78,6 @@ public class SpawnTiroNew : MonoBehaviour
         qTirosText.color= new Color32(255,255,255,255);
     }
         qTirosText.text = qTiros.ToString();
-
-        
-
-
-
     }
 
     IEnumerator NoTiroPadrao()
@@ -81,7 +87,7 @@ public class SpawnTiroNew : MonoBehaviour
         
     }
 
-    void Tiro()
+    public void Tiro()
     {
         nextFire = Time.time + fireRate;
         Instantiate(bullet, shotSpawn.position, shotSpawn.rotation);

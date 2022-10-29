@@ -6,12 +6,8 @@ using TMPro;
 
 public class Nave : MonoBehaviour
 {   
-    /*
-    public float velocity = 10.0f;
-    public float rotation = 90.0f;
 
-    */
-
+    public static Nave instance;
     public FixedJoystick moveJoystick;
 
     public float dashSpeed = 35;
@@ -104,7 +100,10 @@ public class Nave : MonoBehaviour
 
     private Animation anim;
 
-    
+    void Awake()
+    {
+        instance = this;
+    }
 
     void Start () 
     {
@@ -144,34 +143,6 @@ public class Nave : MonoBehaviour
 		
 		}
 
-        
-        shoot = Input.GetKey(KeyCode.K);
-
-        if(shoot && Time.time > nextFire && SpawnTiroNew.tiroJ == false)
-        {
-            //shoot = false;
-            foreach(Gun gun in guns)
-            {
-                FindObjectOfType<Audio_menager>().Play("5Tiros");
-                nextFire = Time.time + fireRate;
-                gun.Shoot();
-            }
-        }
-
-        //Movimentacao ();
-    
-        /*
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-
-        Vector3 dir = new Vector3(0, y , x) * velocity;
-
-        transform.Translate(dir * Time.deltaTime);
-
-        */
-
-        
-
         if (Input.GetKeyDown(KeyCode.U))
         {
             if (!isDashing)
@@ -183,24 +154,6 @@ public class Nave : MonoBehaviour
                 
             }
         }
-
-        
-            // Impedir o player de sair da area da camera
-
-        /*
-        var distanceZ = (transform.position - Camera.main.transform.position).z;
-
-		var leftBorder = Camera.main.ViewportToWorldPoint (new Vector3 (0, 0, distanceZ)).x;
-
-		var rightBorder = Camera.main.ViewportToWorldPoint (new Vector3 (1, 0, distanceZ)).x;
-
-		var topBorder = Camera.main.ViewportToWorldPoint (new Vector3 (0, 0, distanceZ)).y;
-
-		var bottomBorder = Camera.main.ViewportToWorldPoint (new Vector3 (0, 1, distanceZ)).y;
-
-        transform.position = new Vector3 (Mathf.Clamp (transform.position.x, leftBorder, rightBorder), Mathf.Clamp (transform.position.y, topBorder, bottomBorder), transform.position.z);
-        */
-        //
 
         if(vidaPlayer <= 0)
         {
@@ -231,15 +184,13 @@ public class Nave : MonoBehaviour
 
         //anim.Play("Anim01");
 
+        TiroEspecial();
+
     }
 
     void FixedUpdate()
     {
-        //Movimentacao ();
-        //Vector2 directionalForce = direction * acceleration;
-        //corpoRigido2D.AddForce(directionalForce * Time.deltaTime, ForceMode.Impulse);
-        //corpoRigido2D.velocity = new Vector2 (Input.GetAxis ("Horizontal").normalized * velocidade, corpoRigido2D.velocity.y);
-        //corpoRigido2D.velocity = new Vector2 (corpoRigido2D.velocity.x, Input.GetAxis ("Vertical") * velocidade);
+    
 
         if (horizontal != 0 && vertical != 0) // Check for diagonal movement
         {
@@ -252,6 +203,37 @@ public class Nave : MonoBehaviour
         
         corpoRigido2D.velocity = new Vector2(moveJoystick.Horizontal * velocidade, moveJoystick.Vertical * velocidade);
     }
+    public void TiroEspecial()
+    {
+
+        shoot = Input.GetKey(KeyCode.K);
+
+        if(shoot && Time.time > nextFire && SpawnTiroNew.tiroJ == false)
+        {
+            //shoot = false;
+            foreach(Gun gun in guns)
+            {
+                FindObjectOfType<Audio_menager>().Play("5Tiros");
+                nextFire = Time.time + fireRate;
+                gun.Shoot();
+            }
+        }
+    }
+
+    public void TiroEspecialButton()
+    {
+        if( Time.time > nextFire && SpawnTiroNew.tiroJ == false)
+        {
+            //shoot = false;
+            foreach(Gun gun in guns)
+            {
+                FindObjectOfType<Audio_menager>().Play("5Tiros");
+                nextFire = Time.time + fireRate;
+                gun.Shoot();
+            }
+        }
+    }
+
 
     IEnumerator IsDash()
     {
@@ -259,14 +241,6 @@ public class Nave : MonoBehaviour
         isDash = false;
         
     }
-
-    /*    
-    void Movimentacao() 
-    {
-      teclasApertadas = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-      corpoRigido2D.velocity = teclasApertadas.normalized * velocidade;
-    }
-    */
 
     IEnumerator DashM() 
     {

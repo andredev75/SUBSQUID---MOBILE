@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-
     public TiroNew bullet;
     Vector2 direction;
     public static bool tiroExtra;
+
+
 
     // Start is called before the first frame update
     void Start()
