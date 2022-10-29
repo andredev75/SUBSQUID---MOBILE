@@ -249,7 +249,8 @@ public class Nave : MonoBehaviour
         } 
         //horizontal = moveJoystick.Horizontal; 
         //vertical = moveJoystick.Vertical;
-        corpoRigido2D.velocity = new Vector2(horizontal * velocidade, vertical * velocidade);
+        
+        corpoRigido2D.velocity = new Vector2(moveJoystick.Horizontal * velocidade, moveJoystick.Vertical * velocidade);
     }
 
     IEnumerator IsDash()
